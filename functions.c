@@ -8,11 +8,6 @@ void is_push(sstack_t **head, unsigned int number)
 {
 	sstack_t *new;
 
-	if (number == -1)
-	{
-		fprintf(stderr, "L%d: usage: push integer\n", line_number);
-		exit(EXIT_FAILURE);
-	}
 	new = malloc(sizeof(sstack_t));
 	if (new == NULL)
 		exit(EXIT_FAILURE);

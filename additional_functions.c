@@ -16,10 +16,13 @@ int get_int(char *buffer)
 			while (buffer[i] == ' ')
 				i++;
 			j = i;
-			if (buffer[i] < 48 || buffer[i] > 57)
+			if ((buffer[i] < 48 || buffer[i] > 57) && buffer[i] != 45)
 			{
-				return (-1);
+				fprintf(stderr, "L%d: usage: push integer\n", line_number);
+				exit(EXIT_FAILURE);
 			}
+			if (buffer[i] == '-')
+				i++;
 			while (buffer[i] != ' ' && buffer[i])
 			{
 				if (buffer[i] >= 48 && buffer[i] <= 57)
@@ -36,10 +39,12 @@ int get_int(char *buffer)
 			}
 			if (t != 0)
 			{
-				return (-1);
+				fprintf(stderr, "L%d: usage: push integer\n", line_number);
+				exit(EXIT_FAILURE);
 			}
 		}
 		t = 0, i++;
 	}
-	return (-1);
+	fprintf(stderr, "L%d: usage: push integer\n", line_number);
+	exit(EXIT_FAILURE);
 }

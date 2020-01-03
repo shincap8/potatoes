@@ -15,7 +15,15 @@ int main(int argc, char *argv[])
 		{"pop", is_pop},
 		{"swap", is_swap},
 		{"add", is_add},
-		{"nop", is_nop}
+		{"nop", is_nop},
+		{"sub", is_sub},
+		{"div", is_div},
+		{"mul", is_mul},
+		{"mod", is_mod},
+		{"pchar", is_pchar},
+		{"pstr", is_pstr},
+		{"rotl", is_rotl},
+		{"rotr", is_rotr}
 	};
 
 	head = NULL;
@@ -37,7 +45,7 @@ int main(int argc, char *argv[])
 */
 void read_filex(char *file, instruction_t *opd, sstack_t **head)
 {
-	int fd, reader = 1024, i = 0, j = 0;
+	int fd, reader = 1024, i = 0, j = 0, closer = 0;
 	char buffer[1024], *line;
 
 	line_number = 0;
@@ -68,6 +76,9 @@ void read_filex(char *file, instruction_t *opd, sstack_t **head)
 			line[j] = buffer[i], i++, j++;
 		}
 	}
+	closer = close(fd);
+	if (closer == -1)
+		exit(EXIT_FAILURE);
 }
 /**
 * search_in_opd- this function searches in the opd
@@ -82,7 +93,7 @@ void search_in_opd(char *line, instruction_t *opd, sstack_t **head)
 	int i = 0, t = 0, j = 0;
 	unsigned int x = 0;
 
-	while (j < 7)
+	while (j < 17)
 	{
 		i = 0, t = 0;
 		while (line[i] != ' ' && line[i])
@@ -95,7 +106,8 @@ void search_in_opd(char *line, instruction_t *opd, sstack_t **head)
 			t = 0;
 		if (i == t)
 		{
-			x = get_int(line);
+			if (j == 0)
+				x = get_int(line);
 			opd[j].f(head, x);
 			break;
 		}

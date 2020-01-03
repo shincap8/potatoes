@@ -50,4 +50,12 @@ void is_pop(sstack_t **, unsigned int);
 void is_swap(sstack_t **, unsigned int);
 void is_add(sstack_t **, unsigned int);
 void is_nop(sstack_t **, unsigned int);
+void is_sub(sstack_t **head, unsigned int number);
+void is_div(sstack_t **head, unsigned int number);
+void is_mul(sstack_t **head, unsigned int number);
+void is_mod(sstack_t **head, unsigned int number);
+void is_pchar(sstack_t **head, unsigned int number);
+void is_pstr(sstack_t **head, unsigned int number);
+void is_rotl(sstack_t **head, unsigned int number);
+void is_rotr(sstack_t **head, unsigned int number);
 #endif
