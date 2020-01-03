@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <ctype.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -35,10 +36,18 @@ typedef struct stack_s
 typedef struct instruction_s
 {
         char *opcode;
-        void (*f)(stack_t **stack, unsigned int line_number);
+        void (*f)(sstack_t **stack, unsigned int line_number);
 } instruction_t;
-void read_file(char *file, instruction_t opd, stack_t **head);
+unsigned int line_number;
+void read_filex(char *file, instruction_t *opd, sstack_t **head);
 int _strcmp(char *s1, char *s2);
-void is_push(stack_t **, unsigned int);
-void search_in_opd(char *buffercito, instruction_t opd, stack_t **head);
+void is_push(sstack_t **, unsigned int);
+int get_int(char *);
+void is_pall(sstack_t **, unsigned int);
+void search_in_opd(char *buffercito, instruction_t *opd, sstack_t **head);
+void is_pint(sstack_t **, unsigned int);
+void is_pop(sstack_t **, unsigned int);
+void is_swap(sstack_t **, unsigned int);
+void is_add(sstack_t **, unsigned int);
+void is_nop(sstack_t **, unsigned int);
 #endif

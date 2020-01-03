@@ -6,16 +6,24 @@
 */
 int main(int argc, char *argv[])
 {
-	stack_t *head;
+	sstack_t *head;
 	instruction_t opd[] = {
 		{"push", is_push},
-		{"pall", is_pall}
+		{"pall", is_pall},
+		{"pint", is_pint},
+		{"pop", is_pop},
+		{"swap", is_swap},
+		{"add", is_add},
+		{"nop", is_nop}
 	};
 
 	head = NULL;
 	if (argc > 2)
-		printf("error");
-	read_file(argv[1], opd, &head);
+	{
+		fprintf(stderr, "USAGE: monty file\n");
+		exit(EXIT_FAILURE);
+	}
+	read_filex(argv[1], opd, &head);
 	return (0);
 }
 /**
@@ -23,11 +31,15 @@ int main(int argc, char *argv[])
 *
 * Return: Always 0 (Success)
 */
-void read_file(char *file, instruction_t opd, sstack_t **head)
+void read_filex(char *file, instruction_t *opd, sstack_t **head)
 {
 	int fd, reader = 1024, i = 0, j = 0;
-	char buffer[1024], buffercito[1024];
+	char buffer[1024], *buffercito;
 
+	line_number = 0;
+	buffercito = malloc(1024);
+	if (buffercito == NULL)
+		exit(98);
 	fd = open(file, O_RDONLY, 0600);
 	if (fd == -1)
 		dprintf(STDERR_FILENO, "Error: Can't read from file\n"), exit(98);
@@ -42,32 +54,44 @@ void read_file(char *file, instruction_t opd, sstack_t **head)
 		while (buffer[i])
 		{
 			if (buffer[i] == '\n')
-				search_in_opd(buffercito, opd, head);
+			{
+				line_number++;
+				search_in_opd(buffercito, opd, head), j = 0;
+				free(buffercito);
+				buffercito = malloc(1024);
+				i++;
+			}
 			buffercito[j] = buffer[i], i++, j++;
 		}
 	}
 }
-void search_in_opd(char *buffercito, instruction_t opd, sstack_t **head)
+void search_in_opd(char *buffercito, instruction_t *opd, sstack_t **head)
 {
 	int i = 0, t = 0, j = 0;
-	unsigned int x;
+	unsigned int x = 0;
 
-	while (j < 2)
+	while (j < 7)
 	{
-		while (buffercito[i] != ' ')
+		i = 0, t = 0;
+		while (buffercito[i] != ' ' && buffercito[i])
 		{
 			if (buffercito[i] == opd[j].opcode[i])
 				t++;
 			i++;
 		}
+		if (opd[j].opcode[i] != '\0')
+			t = 0;
 		if (i == t)
 		{
-			if (isdigit(buffercito[i + 1]) != 0)
-			{
-				x = atoi(buffercito[i + 1]);
-				opd[j].f(head, x);
-			}
+			x = get_int(buffercito);
+			opd[j].f(head, x);
+			break;
 		}
-		j++, i = 0, t = 0;
+		j++;
+	}
+	if (i != t)
+	{
+		fprintf(stderr, "L%d: unknown instruction %s\n", line_number, buffercito);
+		exit(EXIT_FAILURE);
 	}
 }
