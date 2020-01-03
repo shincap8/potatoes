@@ -1,8 +1,8 @@
 #include "library.h"
 /**
- * ptr_bin - function that prints a variable type b
- * @list: list of functions
- * Return: the number of characters printed
+ * is_push- function that pushes an element to the stack
+ * @head: pointer to top of stack
+ * @number: number to insert to the stack
  */
 void is_push(sstack_t **head, unsigned int number)
 {
@@ -15,7 +15,7 @@ void is_push(sstack_t **head, unsigned int number)
 	}
 	new = malloc(sizeof(sstack_t));
 	if (new == NULL)
-		exit (98);
+		exit(EXIT_FAILURE);
 	new->n = number;
 	new->next = *head;
 	new->prev = NULL;
@@ -24,9 +24,9 @@ void is_push(sstack_t **head, unsigned int number)
 	*head = new;
 }
 /**
- * ptr_bin - function that prints a variable type b
- * @list: list of functions
- * Return: the number of characters printed
+ * is_pall- function that prints the stack
+ * @head: pointer to the top
+ * @number: integer
  */
 void is_pall(sstack_t **head, unsigned int number)
 {
@@ -42,9 +42,9 @@ void is_pall(sstack_t **head, unsigned int number)
 	}
 }
 /**
- * ptr_bin - function that prints a variable type b
- * @list: list of functions
- * Return: the number of characters printed
+ * is_pint- function that prints the top of the stack
+ * @head: pointer of the top of the stack
+ * @number: integer
  */
 void is_pint(sstack_t **head, unsigned int number)
 {
@@ -57,9 +57,9 @@ void is_pint(sstack_t **head, unsigned int number)
 	printf("%d\n", (*head)->n);
 }
 /**
- * ptr_bin - function that prints a variable type b
- * @list: list of functions
- * Return: the number of characters printed
+ * is_pop- function that removes the top of the stack
+ * @head: top of the stack
+ * @number: integer
  */
 void is_pop(sstack_t **head, unsigned int number)
 {
@@ -82,9 +82,9 @@ void is_pop(sstack_t **head, unsigned int number)
 		free(*head), *head = NULL;
 }
 /**
- * ptr_bin - function that prints a variable type b
- * @list: list of functions
- * Return: the number of characters printed
+ * is_swap- function that swaps the top two elements
+ * @head: pointer to top
+ * @number: integer
  */
 void is_swap(sstack_t **head, unsigned int number)
 {

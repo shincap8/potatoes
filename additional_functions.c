@@ -1,4 +1,10 @@
 #include "library.h"
+/**
+* get_int- this function get the integer in the line
+* @buffer: path of the file to read
+*
+* Return: The number Always 0 (Success)
+*/
 int get_int(char *buffer)
 {
 	int i = 0, j = 0, t = 0;

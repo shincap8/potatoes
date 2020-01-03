@@ -1,8 +1,9 @@
 #include "library.h"
 /**
-* main - Entry point
-*
-* Return: Always 0 (Success)
+* main- Entry point
+* @argc: argc
+* @argv: argv
+* Return: always 0
 */
 int main(int argc, char *argv[])
 {
@@ -27,22 +28,25 @@ int main(int argc, char *argv[])
 	return (0);
 }
 /**
-* read_file - this function read
+* read_filex - this function read the file
+* @file: path of the file to read
+* @opd: op code
+* @head: pointer to the top of the stack
 *
 * Return: Always 0 (Success)
 */
 void read_filex(char *file, instruction_t *opd, sstack_t **head)
 {
 	int fd, reader = 1024, i = 0, j = 0;
-	char buffer[1024], *buffercito;
+	char buffer[1024], *line;
 
 	line_number = 0;
-	buffercito = malloc(1024);
-	if (buffercito == NULL)
-		exit(98);
+	line = malloc(1024);
+	if (line == NULL)
+		fprintf(stderr, "Error: malloc failed\n"), exit(EXIT_FAILURE);
 	fd = open(file, O_RDONLY, 0600);
 	if (fd == -1)
-		dprintf(STDERR_FILENO, "Error: Can't read from file\n"), exit(98);
+		fprintf(stderr, "Error: Can't open file %s\n", file), exit(EXIT_FAILURE);
 	while (reader == 1024)
 	{
 		reader = read(fd, buffer, 1024);
@@ -56,16 +60,24 @@ void read_filex(char *file, instruction_t *opd, sstack_t **head)
 			if (buffer[i] == '\n')
 			{
 				line_number++;
-				search_in_opd(buffercito, opd, head), j = 0;
-				free(buffercito);
-				buffercito = malloc(1024);
+				search_in_opd(line, opd, head), j = 0;
+				free(line);
+				line = malloc(1024);
 				i++;
 			}
-			buffercito[j] = buffer[i], i++, j++;
+			line[j] = buffer[i], i++, j++;
 		}
 	}
 }
-void search_in_opd(char *buffercito, instruction_t *opd, sstack_t **head)
+/**
+* search_in_opd- this function searches in the opd
+* @line: line with opd
+* @opd: op code array
+* @head: pointer to the top of the stack
+*
+* Return: Always 0 (Success)
+*/
+void search_in_opd(char *line, instruction_t *opd, sstack_t **head)
 {
 	int i = 0, t = 0, j = 0;
 	unsigned int x = 0;
@@ -73,9 +85,9 @@ void search_in_opd(char *buffercito, instruction_t *opd, sstack_t **head)
 	while (j < 7)
 	{
 		i = 0, t = 0;
-		while (buffercito[i] != ' ' && buffercito[i])
+		while (line[i] != ' ' && line[i])
 		{
-			if (buffercito[i] == opd[j].opcode[i])
+			if (line[i] == opd[j].opcode[i])
 				t++;
 			i++;
 		}
@@ -83,7 +95,7 @@ void search_in_opd(char *buffercito, instruction_t *opd, sstack_t **head)
 			t = 0;
 		if (i == t)
 		{
-			x = get_int(buffercito);
+			x = get_int(line);
 			opd[j].f(head, x);
 			break;
 		}
@@ -91,7 +103,7 @@ void search_in_opd(char *buffercito, instruction_t *opd, sstack_t **head)
 	}
 	if (i != t)
 	{
-		fprintf(stderr, "L%d: unknown instruction %s\n", line_number, buffercito);
+		fprintf(stderr, "L%d: unknown instruction %s\n", line_number, line);
 		exit(EXIT_FAILURE);
 	}
 }

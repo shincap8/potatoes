@@ -1,8 +1,8 @@
 #include "library.h"
 /**
- * ptr_bin - function that prints a variable type b
- * @list: list of functions
- * Return: the number of characters printed
+ * is_add- adds the top two elements of the stack
+ * @head: pointer to top
+ * @number: integer
  */
 void is_add(sstack_t **head, unsigned int number)
 {
@@ -26,9 +26,9 @@ void is_add(sstack_t **head, unsigned int number)
 	}
 }
 /**
- * ptr_bin - function that prints a variable type b
- * @list: list of functions
- * Return: the number of characters printed
+ * is_nop- function that doesn't do anything
+ * @head: pointer to top
+ * @number: integer
  */
 void is_nop(sstack_t **head, unsigned int number)
 {
