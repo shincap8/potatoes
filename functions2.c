@@ -10,19 +10,40 @@ void is_add(sstack_t **head, unsigned int number)
 	int x = 0;
 
 	number = number;
-	if ((*head)->next != NULL)
+	if (numbers[1] == 0)
 	{
-		x = (*head)->next->n + (*head)->n;
-		aux = (*head)->next;
-		aux->n = x;
-		free(*head);
-		aux->prev = NULL;
-		*head = aux;
+		if ((*head)->next != NULL)
+		{
+			x = (*head)->next->n + (*head)->n;
+			aux = (*head)->next;
+			aux->n = x;
+			free(*head);
+			aux->prev = NULL;
+			*head = aux;
+		}
+		else
+		{
+			fprintf(stderr, "L%d: can't add, stack too short\n", numbers[0]);
+			exit(EXIT_FAILURE);
+		}
 	}
 	else
 	{
-		fprintf(stderr, "L%d: can't add, stack too short\n", line_number);
-		exit(EXIT_FAILURE);
+		while ((*head)->next)
+			*head = (*head)->next;
+		if ((*head)->prev != NULL)
+		{
+			x = (*head)->prev->n + (*head)->n;
+			aux = (*head)->prev;
+			free(*head);
+			aux->next = NULL;
+			*head = aux;
+		}
+		else
+		{
+			fprintf(stderr, "L%d: can't add, stack too short\n", numbers[0]);
+			exit(EXIT_FAILURE);
+		}
 	}
 }
 /**
@@ -57,7 +78,7 @@ void is_sub(sstack_t **head, unsigned int number)
 	}
 	else
 	{
-		fprintf(stderr, "L%d: can't sub, stack too short\n", line_number);
+		fprintf(stderr, "L%d: can't sub, stack too short\n", numbers[0]);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -74,7 +95,7 @@ void is_div(sstack_t **head, unsigned int number)
 	number = number;
 	if ((*head)->n == 0)
 	{
-		fprintf(stderr, "L%d: division by zero\n", line_number);
+		fprintf(stderr, "L%d: division by zero\n", numbers[0]);
 		exit(EXIT_FAILURE);
 	}
 	if ((*head)->next != NULL)
@@ -88,7 +109,7 @@ void is_div(sstack_t **head, unsigned int number)
 	}
 	else
 	{
-		fprintf(stderr, "L%d: can't div, stack too short\n", line_number);
+		fprintf(stderr, "L%d: can't div, stack too short\n", numbers[0]);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -114,7 +135,7 @@ void is_mul(sstack_t **head, unsigned int number)
 	}
 	else
 	{
-		fprintf(stderr, "L%d: can't mul, stack too short\n", line_number);
+		fprintf(stderr, "L%d: can't mul, stack too short\n", numbers[0]);
 		exit(EXIT_FAILURE);
 	}
 }

@@ -36,9 +36,9 @@ typedef struct stack_s
 typedef struct instruction_s
 {
 	char *opcode;
-	void (*f)(sstack_t **stack, unsigned int line_number);
+	void (*f)(sstack_t **stack, unsigned int number);
 } instruction_t;
-unsigned int line_number;
+unsigned int numbers[2];
 void read_filex(char *file, instruction_t *opd, sstack_t **head);
 int _strcmp(char *s1, char *s2);
 void is_push(sstack_t **, unsigned int);
@@ -50,12 +50,14 @@ void is_pop(sstack_t **, unsigned int);
 void is_swap(sstack_t **, unsigned int);
 void is_add(sstack_t **, unsigned int);
 void is_nop(sstack_t **, unsigned int);
-void is_sub(sstack_t **head, unsigned int number);
-void is_div(sstack_t **head, unsigned int number);
-void is_mul(sstack_t **head, unsigned int number);
-void is_mod(sstack_t **head, unsigned int number);
-void is_pchar(sstack_t **head, unsigned int number);
-void is_pstr(sstack_t **head, unsigned int number);
-void is_rotl(sstack_t **head, unsigned int number);
-void is_rotr(sstack_t **head, unsigned int number);
+void is_sub(sstack_t **head, unsigned int);
+void is_div(sstack_t **head, unsigned int);
+void is_mul(sstack_t **head, unsigned int);
+void is_mod(sstack_t **head, unsigned int);
+void is_pchar(sstack_t **head, unsigned int);
+void is_pstr(sstack_t **head, unsigned int);
+void is_rotl(sstack_t **head, unsigned int);
+void is_rotr(sstack_t **head, unsigned int);
+void is_stack(sstack_t **head, unsigned int number);
+void is_queue(sstack_t **head, unsigned int number);
 #endif

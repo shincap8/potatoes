@@ -21,7 +21,7 @@ void is_mod(sstack_t **head, unsigned int number)
 	}
 	else
 	{
-		fprintf(stderr, "L%d: can't mod, stack too short\n", line_number);
+		fprintf(stderr, "L%d: can't mod, stack too short\n", numbers[0]);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -37,12 +37,12 @@ void is_pchar(sstack_t **head, unsigned int number)
 	number = number;
 	if ((*head)->n < 0 || (*head)->n > 255)
 	{
-		fprintf(stderr, "L%d: can't pchar, value out of range\n", line_number);
+		fprintf(stderr, "L%d: can't pchar, value out of range\n", numbers[0]);
 		exit(EXIT_FAILURE);
 	}
 	if (head == NULL || *head == NULL)
 	{
-		fprintf(stderr, "L%d: can't pchar, stack empty\n", line_number);
+		fprintf(stderr, "L%d: can't pchar, stack empty\n", numbers[0]);
 		exit(EXIT_FAILURE);
 	}
 	ascii = (*head)->n;

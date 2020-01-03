@@ -29,11 +29,24 @@ void is_pall(sstack_t **head, unsigned int number)
 
 	number = number;
 	if (head == NULL || *head == NULL)
-		return;
-	while (tmp)
+		exit(EXIT_FAILURE);
+	if (numbers[1] == 0)
 	{
-		printf("%d\n", tmp->n);
-		tmp = tmp->next;
+		while (tmp)
+		{
+			printf("%d\n", tmp->n);
+			tmp = tmp->next;
+		}
+	}
+	else
+	{
+		while (tmp->next)
+			tmp = tmp->next;
+		while (tmp)
+		{
+			printf("%d\n", tmp->n);
+			tmp = tmp->prev;
+		}
 	}
 }
 /**
@@ -46,7 +59,7 @@ void is_pint(sstack_t **head, unsigned int number)
 	number = number;
 	if (head == NULL || *head == NULL)
 	{
-		fprintf(stderr, "L%d: can't pint, stack empty\n", line_number);
+		fprintf(stderr, "L%d: can't pint, stack empty\n", numbers[0]);
 		exit(EXIT_FAILURE);
 	}
 	printf("%d\n", (*head)->n);
@@ -63,18 +76,36 @@ void is_pop(sstack_t **head, unsigned int number)
 	number = number;
 	if (*head == NULL || head == NULL)
 	{
-		fprintf(stderr, "L%d: can't pop an empty stack\n", line_number);
+		fprintf(stderr, "L%d: can't pop an empty stack\n", numbers[0]);
 		exit(EXIT_FAILURE);
 	}
-	if ((*head)->next != NULL)
+	if (numbers[1] == 0)
 	{
-		aux = (*head)->next;
-		free(*head);
-		aux->prev = NULL;
-		*head = aux;
+		if ((*head)->next != NULL)
+		{
+			aux = (*head)->next;
+			free(*head);
+			aux->prev = NULL;
+			*head = aux;
+		}
+		else
+			free(*head), *head = NULL;
 	}
 	else
-		free(*head), *head = NULL;
+	{
+		while ((*head)->next)
+			*head = (*head)->next;
+
+		if ((*head)->prev != NULL)
+		{
+			aux = (*head)->prev;
+			free(*head);
+			aux->next = NULL;
+			*head = aux;
+		}
+		else
+			free(*head), *head = NULL;
+	}
 }
 /**
  * is_swap- function that swaps the top two elements
@@ -94,7 +125,7 @@ void is_swap(sstack_t **head, unsigned int number)
 	}
 	else
 	{
-		fprintf(stderr, "L%d: can't swap, stack too short\n", line_number);
+		fprintf(stderr, "L%d: can't swap, stack too short\n", numbers[0]);
 		exit(EXIT_FAILURE);
 	}
 }

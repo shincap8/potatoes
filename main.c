@@ -23,7 +23,9 @@ int main(int argc, char *argv[])
 		{"pchar", is_pchar},
 		{"pstr", is_pstr},
 		{"rotl", is_rotl},
-		{"rotr", is_rotr}
+		{"rotr", is_rotr},
+		{"stack", is_stack},
+		{"queue", is_queue}
 	};
 
 	head = NULL;
@@ -48,7 +50,7 @@ void read_filex(char *file, instruction_t *opd, sstack_t **head)
 	int fd, reader = 1024, i = 0, j = 0, closer = 0;
 	char buffer[1024], *line;
 
-	line_number = 0;
+	numbers[0] = 0;
 	line = malloc(1024);
 	if (line == NULL)
 		fprintf(stderr, "Error: malloc failed\n"), exit(EXIT_FAILURE);
@@ -67,7 +69,7 @@ void read_filex(char *file, instruction_t *opd, sstack_t **head)
 		{
 			if (buffer[i] == '\n')
 			{
-				line_number++;
+				numbers[0] = numbers[0] + 1;
 				search_in_opd(line, opd, head), j = 0;
 				free(line);
 				line = malloc(1024);
@@ -93,7 +95,7 @@ void search_in_opd(char *line, instruction_t *opd, sstack_t **head)
 	int i = 0, t = 0, j = 0;
 	unsigned int x = 0;
 
-	while (j < 17)
+	while (j < 18)
 	{
 		i = 0, t = 0;
 		while (line[i] != ' ' && line[i])
@@ -115,7 +117,7 @@ void search_in_opd(char *line, instruction_t *opd, sstack_t **head)
 	}
 	if (i != t)
 	{
-		fprintf(stderr, "L%d: unknown instruction %s\n", line_number, line);
+		fprintf(stderr, "L%d: unknown instruction %s\n", numbers[0], line);
 		exit(EXIT_FAILURE);
 	}
 }
